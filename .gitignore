@@ -1,0 +1,14 @@
+# Binaries
+pocket
+pocket.exe
+pocket-*
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Go
+*.test
+*.test.exe
