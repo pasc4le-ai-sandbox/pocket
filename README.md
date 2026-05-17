@@ -2,6 +2,14 @@
 
 A dead-simple file clipboard for your terminal.
 
+## Install
+
+```bash
+go install github.com/pasc4le-ai-sandbox/pocket@latest
+```
+
+## Usage
+
 ```bash
 # Save file refs to your pocket
 pocket foo.txt bar.pdf docs/

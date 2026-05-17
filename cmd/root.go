@@ -40,6 +40,10 @@ List the current clipboard:
 Remove an item (by its list number) from the clipboard:
 
   pocket --delete 2
+
+Copyright (c) 2026  Giuseppe Pascale
+Licensed under the European Union Public Licence v1.2 (EUPL-1.2)
+<https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12>
 `,
 	SilenceUsage:  true,
 	SilenceErrors: true,
