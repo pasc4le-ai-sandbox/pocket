@@ -1,8 +1,12 @@
 # Binaries
-pocket
+/pocket
 pocket.exe
 pocket-*
-pocket/pocket
+/pocket/pocket
+
+# But keep the pocket package directory tracked
+!pocket/
+!pocket/*.go
 
 # IDE / OS
 .idea/
