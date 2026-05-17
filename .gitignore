@@ -2,6 +2,7 @@
 pocket
 pocket.exe
 pocket-*
+pocket/pocket
 
 # IDE / OS
 .idea/
