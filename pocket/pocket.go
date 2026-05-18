@@ -122,8 +122,9 @@ func Delete(num int) error {
 }
 
 // Release copies (or moves, when cut is true) every item in the clipboard to
-// the current working directory. On success the clipboard is cleared.
-func Release(cut bool) error {
+// the current working directory. When keep is false the clipboard is cleared
+// on full success; set keep to true to retain the items after release.
+func Release(cut, keep bool) error {
 	items, err := load()
 	if err != nil {
 		return err
@@ -156,8 +157,8 @@ func Release(cut bool) error {
 		copied++
 	}
 
-	// Only clear the clipboard on full success.
-	if len(errors) == 0 {
+	// Only clear the clipboard on full success unless --keep is set.
+	if !keep && len(errors) == 0 {
 		if err := save([]string{}); err != nil {
 			return err
 		}

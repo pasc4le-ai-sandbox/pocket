@@ -17,6 +17,9 @@ pocket foo.txt bar.pdf docs/
 # Copy them to the current directory
 pocket -r
 
+# Keep the items in the clipboard after releasing
+pocket -r -k
+
 # Move them instead
 pocket -r -c
 

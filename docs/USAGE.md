@@ -52,6 +52,13 @@ pocket -r
 If a destination file already exists, the item is skipped with a warning but
 other items continue to be processed. On full success the clipboard is cleared.
 
+To keep the items in the clipboard after release (don't clear), use `--keep`:
+
+```bash
+pocket --release --keep
+pocket -r -k
+```
+
 ## Moving items (cut)
 
 Use `--cut` together with `--release` to **move** files instead of copying

@@ -242,7 +242,7 @@ func TestDelete(t *testing.T) {
 func TestReleaseEmpty(t *testing.T) {
 	setupTest(t)
 
-	err := Release(false)
+	err := Release(false, false)
 	if err == nil {
 		t.Fatal("expected error for empty clipboard release")
 	}
@@ -270,7 +270,7 @@ func TestReleaseCopy(t *testing.T) {
 	}
 	t.Cleanup(func() { os.Chdir(orig) })
 
-	if err := Release(false); err != nil {
+	if err := Release(false, false); err != nil {
 		t.Fatal(err)
 	}
 
@@ -320,7 +320,7 @@ func TestReleaseCut(t *testing.T) {
 	}
 	t.Cleanup(func() { os.Chdir(orig) })
 
-	if err := Release(true); err != nil {
+	if err := Release(true, false); err != nil {
 		t.Fatal(err)
 	}
 
@@ -357,7 +357,7 @@ func TestReleaseDestinationConflict(t *testing.T) {
 	}
 	t.Cleanup(func() { os.Chdir(orig) })
 
-	err := Release(false)
+	err := Release(false, false)
 	if err == nil {
 		t.Fatal("expected error due to destination conflict")
 	}
@@ -366,6 +366,75 @@ func TestReleaseDestinationConflict(t *testing.T) {
 	data, _ := os.ReadFile(filepath.Join(dst, "a.txt"))
 	if string(data) != "preexisting" {
 		t.Errorf("conflicting file was overwritten: content = %q, want %q", string(data), "preexisting")
+	}
+}
+
+func TestReleaseKeep(t *testing.T) {
+	home := setupTest(t)
+	f1 := writeTestFile(t, home, "a.txt", "hello")
+	f2 := writeTestFile(t, home, "b.txt", "world")
+
+	if err := Add(f1, f2); err != nil {
+		t.Fatal(err)
+	}
+
+	dst := t.TempDir()
+	orig, _ := os.Getwd()
+	if err := os.Chdir(dst); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { os.Chdir(orig) })
+
+	// Release with keep=true — clipboard should not be cleared
+	if err := Release(false, true); err != nil {
+		t.Fatal(err)
+	}
+
+	items, err := List()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(items) != 2 {
+		t.Fatalf("with --keep: clipboard has %d items, want 2", len(items))
+	}
+
+	// Verify files were still copied
+	if _, err := os.Stat(filepath.Join(dst, "a.txt")); err != nil {
+		t.Errorf("file not copied when keep=true: %v", err)
+	}
+}
+
+func TestReleaseCutWithKeep(t *testing.T) {
+	home := setupTest(t)
+	f1 := writeTestFile(t, home, "moveme.txt", "bye")
+
+	if err := Add(f1); err != nil {
+		t.Fatal(err)
+	}
+
+	dst := t.TempDir()
+	orig, _ := os.Getwd()
+	if err := os.Chdir(dst); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { os.Chdir(orig) })
+
+	// cut=true, keep=true — items moved but clipboard retained
+	if err := Release(true, true); err != nil {
+		t.Fatal(err)
+	}
+
+	items, err := List()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("with --cut --keep: clipboard has %d items, want 1", len(items))
+	}
+
+	// Originals should be gone (cut)
+	if _, err := os.Stat(f1); !os.IsNotExist(err) {
+		t.Errorf("original should be gone after cut even with keep=true")
 	}
 }
 

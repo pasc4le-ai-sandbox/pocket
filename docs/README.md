@@ -45,6 +45,7 @@ GOOS=linux GOARCH=amd64 go build -o pocket-linux-amd64 .
 |-------|------------|------|-------------------------------------|
 | (none)| (none)     | path(s) | Add paths to clipboard            |
 | `-r`  | `--release`| —    | Copy all items to current directory |
+| `-k`  | `--keep`   | —    | Keep clipboard after release        |
 | `-c`  | `--cut`    | —    | Move instead of copy (with `-r`)    |
 | `-l`  | `--list`   | —    | Show numbered list                  |
 | `-d N`| `--delete N`| int | Remove item #N from clipboard       |
