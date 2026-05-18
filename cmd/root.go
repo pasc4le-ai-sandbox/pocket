@@ -107,6 +107,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&list, "list", "l", false, "list all clipboard items with numbers")
 	rootCmd.Flags().IntVarP(&deleteI, "delete", "d", -1, "remove item NUMBER from clipboard (1-indexed)")
 	rootCmd.Flags().BoolVarP(&cut, "cut", "c", false, "move files instead of copying (only with --release)")
+	rootCmd.Flags().BoolVarP(&cut, "move", "m", false, "alias for --cut (move files instead of copying)")
 	rootCmd.Flags().BoolVarP(&keep, "keep", "k", false, "keep clipboard items after release (don't clear)")
 
 	// Make -d explicit: require a value for the short flag too
