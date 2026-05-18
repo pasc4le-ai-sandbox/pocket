@@ -6,6 +6,10 @@ A dead-simple file clipboard for your terminal.
 
 ```bash
 go install github.com/pasc4le-ai-sandbox/pocket@latest
+
+# or using homebrew
+
+brew install pasc4le/tap/pocket
 ```
 
 ## Usage
